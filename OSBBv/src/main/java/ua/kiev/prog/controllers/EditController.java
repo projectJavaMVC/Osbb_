@@ -28,7 +28,11 @@ public class EditController {
 
     @RequestMapping("/user/edit")
     public String edit(Model model) {
+        UserEntity us = getCurrUser();
+        User user = new User(us);
+        model.addAttribute("user", user);
         return "/user/main/edit";
+
     }
 
     @RequestMapping("/edit/userInfo")
@@ -49,7 +53,7 @@ public class EditController {
         us.getUserInfo().getFlatsEntity().setPeopleCnt(peopleCNT);
 
         User user = new User(us);
-
+            //savetoDB
         model.addAttribute("servicesList", getCurrentUserServiceList(us));
         model.addAttribute("user", user);
         model.addAttribute("users", getCurrentUserList(us));

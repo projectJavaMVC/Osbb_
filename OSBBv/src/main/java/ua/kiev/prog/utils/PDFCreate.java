@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
 public class PDFCreate {
     public void createPDF(){
         try {
-            Document document = new Document(PageSize., 50, 50, 50, 50);
+            Document document = new Document(PageSize.A4_LANDSCAPE, 50, 50, 50, 50);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("E:\\ITextTest.pdf"));
             document.open();
             PdfPTable t = new PdfPTable(3);

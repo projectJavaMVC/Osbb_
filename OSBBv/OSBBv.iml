@@ -13,14 +13,10 @@
     </facet>
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/AppConfig.java</file>
-        </fileset>
-        <fileset id="fileset2" name="Spring Application Context (2)" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/SecurityConfig.java</file>
-        </fileset>
-        <fileset id="fileset3" name="Spring Application Context (3)" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/App.java</file>
+        <fileset id="fileset" name="Spring Application Context4" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/config/App.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/config/AppConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/ua/kiev/prog/config/SecurityConfig.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -115,5 +111,9 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:4.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-taglibs:4.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-acl:3.2.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcmail-jdk14:1.38" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk14:1.38" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bctsp-jdk14:1.38" level="project" />
   </component>
 </module>

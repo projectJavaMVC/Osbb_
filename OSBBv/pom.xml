@@ -104,6 +104,12 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.0.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.0.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>

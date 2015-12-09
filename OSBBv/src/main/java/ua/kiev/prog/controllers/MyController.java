@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.kiev.prog.entity.*;
 import ua.kiev.prog.services.Services;
 import ua.kiev.prog.utils.Email;
+import ua.kiev.prog.utils.PDFCreate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MyController {
 
     @RequestMapping("/")
     public String index(Model model) {
+        new PDFCreate().createPDF();
         return "all/hello/signIN";
     }
     @RequestMapping("/signin")

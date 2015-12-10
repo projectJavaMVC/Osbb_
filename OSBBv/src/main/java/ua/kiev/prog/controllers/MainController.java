@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.kiev.prog.entity.*;
 import ua.kiev.prog.services.Services;
+import ua.kiev.prog.utils.PDFCreate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,15 @@ public class MainController {
     @RequestMapping("/sec/signIN")
     public String signin(  Model model) {
         UserEntity user = getCurrUser();
-      ////инициализация А
+        new PDFCreate().createPDF(user);
         List<UserEntity> listUsers = services.findAllUsersByBuild(user.getBuildsEntity());
         List<User> listUser = new ArrayList<User>();
         for (UserEntity u : listUsers) {
-            User us = new User(u);
-            listUser.add(us);
-        }//
+            if (u.getId()!=user.getId() && u.getUserInfo() != null) {
+                User us = new User(u);
+                listUser.add(us);
+            }
+        }
         //
         List<ServiceUser> serviceUserList = new ArrayList<ServiceUser>();
         List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
@@ -75,5 +78,4 @@ public class MainController {
         ////Вынести в метод инициализацию а и прокрутить тут.
         return   "user/main/mainuser";
     }
-
 }

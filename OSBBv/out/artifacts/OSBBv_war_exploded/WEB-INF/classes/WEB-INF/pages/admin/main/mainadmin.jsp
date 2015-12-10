@@ -44,7 +44,8 @@
               <li><a href="#section42">Посмотреть</a></li>
             </ul>
           </li>
-          <li><a href="<c:url value="j_spring_security_logout" />" > Logout</a></li>>
+          <li>
+            <a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -66,6 +67,13 @@
     <p></p>
   <input type="submit" class="btn btn-primary" value="Пригласить!">
   </form>
+
+    <p></p>
+    <form role="form" enctype="multipart/form-data" class="form-horizontal" action="/admin/edit" method="post">
+      <input type="submit" class="btn btn-primary" value="Изменить тарифы...">
+    </form>
+
+
 </div>
 </div>
 <div id="section42" class="container-fluid">
@@ -87,7 +95,7 @@
       <tr>
         <td>${user.flatNum}</td>
         <td>${user.name}</td>
-        <td>${user.surename}</td>
+        <td>${user.surname}</td>
         <td>${user.phone}</td>
         <td>${user.email}</td>
         <td>${user.area}</td>

@@ -45,32 +45,33 @@
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="name" placeholder="Имя">
+
+          <input type="text" class="form-control" name="name" placeholder="Имя" value="${user.name}">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="surname" placeholder="Фамилия">
+          <input type="text" class="form-control" name="surname" placeholder="Фамилия" value="${user.surname}">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="phone" placeholder="Телефон">
+          <input type="text" class="form-control" name="phone" placeholder="Телефон" value="${user.phone}">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="email" placeholder="Электронная почта">
+          <input type="text" class="form-control" name="email" placeholder="Электронная почта" value="${user.email}">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="area" placeholder="Площадь">
+          <input type="text" class="form-control" name="area" placeholder="Площадь" value="${user.area}">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4">
-          <input type="text" class="form-control" name="peopleCNT" placeholder="Количество жильцов">
+          <input type="text" class="form-control" name="peopleCNT" placeholder="Количество жильцов" value="${user.peopleCNT}">
         </div>
       </div>
       <div class="form-group">

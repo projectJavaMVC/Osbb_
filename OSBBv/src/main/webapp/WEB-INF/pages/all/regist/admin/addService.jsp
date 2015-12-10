@@ -41,7 +41,7 @@
             <form role="form"     enctype="multipart/form-data" class="form-horizontal" action="/all/reg/add/admin/service" method="post">
               <div class="form-group">
                 <div class="row">
-                 <div class="col-md-8">
+                 <div class="col-md-4">
                   <h3>Выберите сервисы, которые буду учитываться в вашем доме.</h3>
                  </div>
                 </div>

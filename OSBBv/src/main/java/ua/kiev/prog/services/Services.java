@@ -27,6 +27,8 @@ public class Services {
     private BuildsServicesRepository buildServicesRepository;
     @Autowired
     private CountDataRepository countDataRepository;
+    @Autowired
+    private ServicesEntityRepository servicesEntityRepository;
 
 
     @Transactional
@@ -122,6 +124,14 @@ public class Services {
     @Transactional
     public void addBuildService(BuildServices buildServices) {
         buildServicesRepository.saveAndFlush(buildServices);
+    }
+    @Transactional
+    public void mergeBuildService(BuildServices buildServices) {
+        buildServicesRepository.save(buildServices);
+    }
+    @Transactional
+    public List<ServicesEntity> getAllServicesEntity (){
+        return servicesEntityRepository.findAll();
     }
 }
 

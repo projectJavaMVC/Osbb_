@@ -6,14 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.kiev.prog.entity.BuildServices;
-import ua.kiev.prog.entity.ServiceUser;
-import ua.kiev.prog.entity.User;
-import ua.kiev.prog.entity.UserEntity;
+import ua.kiev.prog.entity.*;
 import ua.kiev.prog.services.Services;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Пользователь on 09.12.2015.
@@ -34,6 +32,43 @@ public class EditController {
         return "/user/main/edit";
 
     }
+
+    @RequestMapping("/admin/edit")
+    public String editAdmin(Model model) {
+        UserEntity user = getCurrUser();
+        model.addAttribute("services", getAllUserServiceList(user));
+        return "/admin/main/edit2";
+    }
+
+
+    /*  CountData data = new CountData();
+        data.setServicesEntity(services.getServiceById(servId));
+        data.setRate(rate);
+        data.setValue(currentvalue);
+        data.setUserEntity(user);
+        services.addCountData(data);*/
+
+
+    @RequestMapping("/edit/ServiceRates")
+    public String editServiceRates(@RequestParam Map<String,String > allRequestParam, Model model) {
+        UserEntity user = getCurrUser();
+        List<BuildServices>buildServicesList = user.getBuildsEntity().getServices();
+        for (Map.Entry<String, String> entry : allRequestParam.entrySet()) {
+            for (BuildServices buildService : buildServicesList) {
+                if(buildService.getId() == Integer.parseInt(entry.getKey()))
+                buildService.setRate(Integer.parseInt(entry.getValue()));
+                services.mergeBuildService(buildService);
+            }
+        }
+        services.mergeBuild(user.getBuildsEntity());
+        model.addAttribute("services", getCurrentUserServiceList(user));
+        model.addAttribute("user", user);
+
+        return "/admin/main/mainadmin";
+    }
+
+
+
 
     @RequestMapping("/edit/userInfo")
     public String editUserData(@RequestParam String name,
@@ -88,6 +123,30 @@ public class EditController {
             serviceUser.setRate(buildServ.getRate());
             serviceUser.setLastValue(services.findLastValue(user, buildServ.getServicesEntity()) == null ? 0 : services.findLastValue(user, buildServ.getServicesEntity()).getValue());
             serviceUserList.add(serviceUser);
+        }
+        return serviceUserList;
+    }
+    public List<ServiceUser> getAllUserServiceList(UserEntity user) {
+        List<ServiceUser> serviceUserList = new ArrayList<ServiceUser>();
+        List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
+        for (BuildServices buildServ : buildServicesList) {
+            ServiceUser serviceUser = new ServiceUser();
+            serviceUser.setName(buildServ.getServicesEntity().getName());
+            serviceUser.setServiceId(buildServ.getServicesEntity().getId());
+            serviceUser.setRate(buildServ.getRate());
+            serviceUser.setLastValue(services.findLastValue(user, buildServ.getServicesEntity()) == null ? 0 : services.findLastValue(user, buildServ.getServicesEntity()).getValue());
+            serviceUserList.add(serviceUser);
+        }
+        List<ServicesEntity> servicesEntities = services.getAllServicesEntity();
+        outer: for(ServicesEntity service : servicesEntities){
+            for(ServiceUser serviceUser: serviceUserList){
+                if(serviceUser.getServiceId()==service.getId())
+                { continue outer;}
+            }
+            ServiceUser serviceUser2 = new ServiceUser();
+            serviceUser2.setName(service.getName());
+            serviceUser2.setServiceId(service.getId());
+            serviceUserList.add(serviceUser2);
         }
         return serviceUserList;
     }

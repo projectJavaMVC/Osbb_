@@ -28,13 +28,17 @@ public class MyController {
 
     static final int USER_TYPE = 0;
     static final int ADMIN_TYPE = 1;
+    private UserEntity getCurrUser(){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return services.findOneUserByLogin(login);
+    }
 
     @Autowired
     private Services services;
 
     @RequestMapping("/")
     public String index(Model model) {
-        new PDFCreate().createPDF();
+        //new PDFCreate().createPDF();
         return "all/hello/signIN";
     }
     @RequestMapping("/signin")
@@ -166,7 +170,8 @@ public class MyController {
 
 
     @RequestMapping("/inviteusers")
-    public String inviteUsers(@RequestParam String email, @ModelAttribute("user") UserEntity user, Model model) {
+    public String inviteUsers(@RequestParam String email, Model model) {
+        UserEntity user = getCurrUser();
         String code = user.getBuildsEntity().getCode();
         new Email().sendMail(email, code);
         return user.getType() == USER_TYPE ? "user/main/mainuser" : "admin/main/mainadmin";
@@ -208,4 +213,5 @@ public class MyController {
         model.addAttribute("user", user);
         return "testdata";
     }
+
 }

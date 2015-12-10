@@ -44,13 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/all*").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/all/*").permitAll()
+                //.anyRequest().permitAll()
                 .and();
         // http.sessionManagement().invalidSessionUrl()
         http.authorizeRequests()
-                .antMatchers("/admin/*").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/user/*").access("hasRole('ROLE_USER')")
+                .antMatchers("/admin/*").fullyAuthenticated()
+                .antMatchers("/user/*").fullyAuthenticated()
                 .and().formLogin().defaultSuccessUrl("/", false);
 
         http.formLogin()
@@ -61,6 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
                 .permitAll();
+        http.logout()
+                .permitAll()
+                .logoutUrl("/j_spring_security_logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true);
 
     }
 

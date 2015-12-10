@@ -35,46 +35,47 @@
 
 <div id="section1" class="container-fluid">
   <div class="container">
-      <div class="row">
-        <div class="control-group" id="fields">
-          <div class="controls">
-            <form role="form"     enctype="multipart/form-data" class="form-horizontal" action="/all/reg/add/admin/service" method="post">
-              <div class="form-group">
-                <div class="row">
-                 <div class="col-md-4">
-                  <h3>Выберите сервисы, которые буду учитываться в вашем доме.</h3>
-                 </div>
+    <div class="row">
+      <div class="control-group" id="fields">
+        <div class="controls">
+          <form role="form"     enctype="multipart/form-data" class="form-horizontal" action="/edit/ServiceRates" method="post">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <h3>Редактор.</h3>
                 </div>
               </div>
-              <c:forEach items="${services}" var="service">
-                <div class="entry input-group">
+            </div>
+            <c:forEach items="${services}" var="service">
+              <div class="entry input-group">
                 <div class="form-group">
-                 <div class="row">
-                  <div class="col-md-4">
-                   <input class="form-control" name="${service.id}"  type="number" placeholder="${service.name}"/>
-                  </div>
-                  <div class="col-md-4">
-                     <span class="input-group-btn">
-                     <button class="btn btn-success btn-remove btn-danger" type="button">
-                     <span class="glyphicon glyphicon-minus"></span>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <p/>${service.name}<input class="form-control" name="${service.serviceId}" placeholder="Тариф" value="${service.rate}"/>
+                    </div>
+                    <div class="col-md-4">
+                      <br>
+                       <span class="input-group-btn">
+                       <button class="btn btn-success btn-remove btn-danger" type="button">
+                       <span class="glyphicon glyphicon-minus"></span>
                      </button>
                      </span>
-                  </div>
-                 </div>
-                </div>
-                </div>
-              </c:forEach>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-4">
-                    <input type="submit"    class="btn btn-success"  value="Готово!">
+                    </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </c:forEach>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <input type="submit"    class="btn btn-success"  value="Готово!">
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
   </div>
 </div>
 

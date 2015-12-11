@@ -30,22 +30,23 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">ОСББ</a>
+      <a class="navbar-brand" href="/">ОСББ</a>
     </div>
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="#section1">Выставить Счета</a></li>
-          <li><a href="#section2">Оплаты</a></li>
-          <li><a href="#section3">Мои данные</a></li>
+          <li><a href="#section1">Сформировать платежки</a></li>
+          <li><a href="#section3">Показания счетчиков</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Жильцы<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#section41">Пригласить</a></li>
               <li><a href="#section42">Посмотреть</a></li>
             </ul>
           </li>
+          <li><a href="/admin/edit"> Изменить тарифы</a></li></ul>
+        <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
+            <a aria-label="Left Align" href="<c:url value="/j_spring_security_logout"/>"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
       </div>
     </div>
@@ -53,11 +54,62 @@
 </nav>
 
 <div id="section1" class="container-fluid">
+  <div class="container">
+    <form role="form" enctype="multipart/form-data" class="form-horizontal" action="/admin/add/payments" method="post">
+      <h1>Сформировать платежи</h1>
+  <table class="table table-border" style="width: auto">
+    <thead>
+    <tr>
+      <td><b>Сервис</b></td>
+      <td><b></b></td>
+      <td><b></b></td>
+    </tr>
+    </thead>
+    <c:forEach items="${servicesList}" var="serviceUser">
+      <tr>
+        <td>${serviceUser.name}</td>
+        <td>
+          <input type="submit" formaction="/admin/add/payments/${serviceUser.serviceId}" formmethod="post" class="btn btn-primary launch-modal" value="Сформировать платежки">
+        </td>
+      </tr>
+    </c:forEach>
+  </table>
+      </form>
+    </div>
+
+
 </div>
-<div id="section2" class="container-fluid">
+  <div id="section3" class="container-fluid">
+    <div class="container">
+
+      <h1>Показания счетчиков жильцов</h1>
+      <table class="table table-border">
+        <thead>
+        <tr>
+          <td><b>Номер квартиры</b></td>
+          <td><b>Имя</b></td>
+          <td><b>Фамилия</b></td>
+          <td><b>Сервис</b></td>
+          <td><b>Ткущие показания</b></td>
+        </tr>
+        </thead>
+        <c:forEach items="${users}" var="user">
+          <tr>
+            <td>${user.flatNum}</td>
+            <td>${user.name}</td>
+            <td>${user.surname}</td>
+
+          <c:forEach items="${user.currentCounter}" var="counters">
+              <td>${counters.key}</td>
+              <td>${counters.value}</td>
+          </c:forEach>
+            </tr>
+        </c:forEach>
+
+
+      </table>
 </div>
-<div id="section3" class="container-fluid">
-</div>
+  </div>
 <div id="section41" class="container-fluid">
   <div class="container">
   <h1>Пригласите своих соседей!</h1>
@@ -67,15 +119,10 @@
     <p></p>
   <input type="submit" class="btn btn-primary" value="Пригласить!">
   </form>
-
-    <p></p>
-    <form role="form" enctype="multipart/form-data" class="form-horizontal" action="/admin/edit" method="post">
-      <input type="submit" class="btn btn-primary" value="Изменить тарифы...">
-    </form>
-
-
 </div>
 </div>
+
+
 <div id="section42" class="container-fluid">
   <div class="container">
   <h1>Мои Жильцы</h1>
@@ -105,6 +152,19 @@
   </table>
 </div>
 </div>
+
+<div class="navbar navbar-inverse navbar-fixed-bottom" >
+<div class="container-fluid">
+  <div class="navbar-text pull-left">
+  <h3>Project by maxim & yurii</h3>
+</div>
+  <div class="navbar-text pull-right">
+    <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+  </div>
+</div>
+</div>
+
+
 
 </body>
 </html>

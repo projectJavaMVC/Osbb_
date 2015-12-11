@@ -25,7 +25,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">ОСББ</a>
+            <a class="navbar-brand" href="/">ОСББ</a>
         </div>
     </div>
 </nav>
@@ -62,6 +62,20 @@
            </div>
     </div>
 </div>
+
+
+<div class="navbar navbar-inverse navbar-fixed-bottom" >
+    <div class="container-fluid">
+        <div class="navbar-text pull-left">
+            <h3>Project by maxim & yurii</h3>
+        </div>
+        <div class="navbar-text pull-right">
+            <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html>

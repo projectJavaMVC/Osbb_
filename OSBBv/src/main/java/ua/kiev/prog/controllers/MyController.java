@@ -39,7 +39,10 @@ public class MyController {
     @RequestMapping("/")
     public String index(Model model) {
         //new PDFCreate().createPDF();
-        return "all/hello/signIN";
+        if (getCurrUser()==null){
+            return "all/hello/signIN";
+        }
+        return "redirect: /sec/signIN";
     }
     @RequestMapping("/signin")
     public String signIn(Model model) {
@@ -145,7 +148,7 @@ public class MyController {
         flat.setPeopleCnt(peopleCount);
         flat.setArea(area);
         services.mergeFlat(flat);
-        return "user/main/mainuser";
+        return "all/hello/signIN";
     }
 
 
@@ -189,7 +192,7 @@ public class MyController {
             services.addBuildService(buildServ);
         }
         user = services.mergeUser(user);
-        return "admin/main/mainadmin";
+        return "all/hello/signIN";
     }
 
     @RequestMapping("/test")

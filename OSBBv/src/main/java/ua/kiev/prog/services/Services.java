@@ -7,7 +7,10 @@ import ua.kiev.prog.entity.*;
 import ua.kiev.prog.repositories.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class Services {
@@ -29,21 +32,27 @@ public class Services {
     private CountDataRepository countDataRepository;
     @Autowired
     private ServicesEntityRepository servicesEntityRepository;
+    @Autowired
+    private CurrentPaymentsRepository currentPaymentsRepository;
 
 
     @Transactional
     public void addCountData(CountData  countData){
-        countDataRepository.save( countData);
+        countDataRepository.save(countData);
     }
 
     @Transactional
     public CountData findLastValue (UserEntity userEntity,ServicesEntity servicesEntity )
     {
-        return countDataRepository.findOneByUserEntityAndServicesEntity(userEntity, servicesEntity);
+        return countDataRepository.findTop1ByUserEntityAndServicesEntityOrderByIdDesc(userEntity, servicesEntity);//findOneByUserEntityAndServicesEntityOrderByIdDesc
     }
     @Transactional
     public void addUser(UserEntity userEntity) {
         userEntityRepository.saveAndFlush(userEntity);
+    }
+    @Transactional
+    public void addCurrentPayments(CurrentPayments currentPayments) {
+        currentPaymentsRepository.saveAndFlush(currentPayments);
     }
 
     @Transactional
@@ -133,5 +142,53 @@ public class Services {
     public List<ServicesEntity> getAllServicesEntity (){
         return servicesEntityRepository.findAll();
     }
+    @Transactional
+    public Map<Long,Long> getCurrValuesByUser (UserEntity userEntity) {
+        List<BuildServices> buildServices = userEntity.getBuildsEntity().getServices(); //достаем все сервисы для этого дома
+        Map<Long,Long> countDatas = new HashMap<Long,Long>(); // создаем массив для хранения показателей
+        for(BuildServices buildService : buildServices){
+            ServicesEntity service = buildService.getServicesEntity(); //берем сервис 1
+            CountData  cntData = countDataRepository.findTop1ByUserEntityAndServicesEntityOrderByIdDesc(userEntity, service);
+            if (cntData!=null)
+            {
+            countDatas.put(cntData.getServicesEntity().getId(),cntData.getValue());
+            } else {
+                countDatas.put(service.getId() , (long)50);
+            }//находим для нехо показатели и кладем в список
+        }
+        return countDatas;
+    }
+    @Transactional
+    public Map<Long,Long> getPrevValuesByUser (UserEntity userEntity) {
+        List<BuildServices> buildServices = userEntity.getBuildsEntity().getServices(); //достаем все сервисы для этого дома
+        Map<Long,Long> countDatas = new HashMap<Long,Long>(); // создаем массив для хранения показателей
+        for(BuildServices buildService : buildServices){
+            ServicesEntity service = buildService.getServicesEntity(); //берем сервис 1
+            List<CountData> listCount = countDataRepository.findTop2ByUserEntityAndServicesEntityOrderByIdDesc(userEntity, service); //находим для нехо показатели и кладем в список
+            int size = listCount.size();
+            System.out.println(size);
+            System.out.println(buildService.getId());
+            if(size==2){
+                countDatas.put(service.getId(),listCount.get(0).getId() > listCount.get(1).getId() ? listCount.get(1).getValue() : listCount.get(0).getValue()  );
+            } else if (size==1){
+                countDatas.put(service.getId(), listCount.get(0).getValue()  );
+            } else if (size == 0 ) {
+                countDatas.put(buildService.getServicesEntity().getId(), (long)0 );
+            }
+            }
+        return countDatas;
+        }
+
+
+    @Transactional
+    public BuildServices getBuildServiceByBuildAndService (BuildsEntity buildsEntity,ServicesEntity servicesEntity){
+        return
+                buildServicesRepository.findTop1ByBuildsEntityAndServicesEntity(buildsEntity, servicesEntity);
+    }
+    @Transactional
+    public List<CurrentPayments> getCurrentPayments (UserEntity userEntity){
+        return currentPaymentsRepository.findByUserEntity(userEntity);
+    }
+
 }
 

@@ -10,13 +10,13 @@ import javax.persistence.*;
 public class CountData {
     @Id
     @GeneratedValue
-    private long Id;
+    private long id;
     private long value;
     private int rate;
-    @ManyToOne(targetEntity = UserEntity.class)
+    @ManyToOne//(targetEntity = UserEntity.class)
     @JoinColumn(name="user_id")
     private UserEntity userEntity;
-    @ManyToOne(targetEntity = ServicesEntity.class)
+    @ManyToOne//(targetEntity = ServicesEntity.class)
     @JoinColumn(name = "service_id")
     private ServicesEntity servicesEntity;
 
@@ -31,11 +31,11 @@ public class CountData {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        id = id;
     }
 
     public long getValue() {

@@ -40,15 +40,6 @@ public class EditController {
         return "/admin/main/edit2";
     }
 
-
-    /*  CountData data = new CountData();
-        data.setServicesEntity(services.getServiceById(servId));
-        data.setRate(rate);
-        data.setValue(currentvalue);
-        data.setUserEntity(user);
-        services.addCountData(data);*/
-
-
     @RequestMapping("/edit/ServiceRates")
     public String editServiceRates(@RequestParam Map<String,String > allRequestParam, Model model) {
         UserEntity user = getCurrUser();
@@ -66,9 +57,6 @@ public class EditController {
 
         return "/admin/main/mainadmin";
     }
-
-
-
 
     @RequestMapping("/edit/userInfo")
     public String editUserData(@RequestParam String name,
@@ -88,7 +76,7 @@ public class EditController {
         us.getUserInfo().getFlatsEntity().setPeopleCnt(peopleCNT);
 
         User user = new User(us);
-            //savetoDB
+
         model.addAttribute("servicesList", getCurrentUserServiceList(us));
         model.addAttribute("user", user);
         model.addAttribute("users", getCurrentUserList(us));

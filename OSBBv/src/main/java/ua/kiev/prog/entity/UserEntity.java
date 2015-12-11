@@ -30,7 +30,7 @@ public class UserEntity {
     private BuildsEntity buildsEntity;
     public UserEntity() {
     }
-   /*@OneToMany(mappedBy = "user_id" , targetEntity = CountData.class)
+    @OneToMany(mappedBy = "userEntity" , targetEntity = CountData.class)
     private List<CountData> countDatas = new ArrayList<CountData>();
 
 
@@ -41,7 +41,7 @@ public class UserEntity {
 
     public void setCountDatas(List<CountData> countDatas) {
         this.countDatas = countDatas;
-    }*/
+    }
 
     public UserEntity(String login, String pass, String email, Short type, BuildsEntity buildsEntity) {
         this.login = login;

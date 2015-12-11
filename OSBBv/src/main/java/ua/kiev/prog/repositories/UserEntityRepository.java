@@ -19,5 +19,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
     UserEntity findOneByLogin (String login);
     List<UserEntity> findAllByBuildsEntity (BuildsEntity buildsEntity);
+    //List<UserEntity> findAllByBuildsEntity (BuildsEntity buildsEntity);
     UserEntity findOneByBuildsEntity (BuildsEntity buildsEntity);
 }

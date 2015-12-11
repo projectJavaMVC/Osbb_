@@ -14,11 +14,11 @@
     body {
       position: relative;
     }
-    #section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
+    #section1 {padding-top:50px;height:100%;color: #fff; background-color: #1E88E5;}
     #section2 {padding-top:50px;height:500px;color: #fff; background-color: #673ab7;}
-    #section3 {padding-top:50px;height:500px;color: #fff; background-color: #5424ff;}
+
     #section41 {padding-top:50px;height:500px;color: #fff; background-color: #00bcd4;}
-    #section42 {padding-top:50px;height:500px;color: #fff; background-color: #009688;}
+    #section42 {padding-top:50px;height:100%;color: #fff; background-color: #009688;}
   </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
@@ -31,20 +31,24 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">ОСББ</a>
+      <a class="navbar-brand" href="/">ОСББ</a>
     </div>
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#section1">Выставленные Счета</a></li>
-          <li><a href="#section2">Текущие счета</a></li>
-          <li><a href="#section3">Мои данные</a></li>
+          <li><a href="#section2">Внести показания счетчиков</a></li>
+
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Соседи<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#section41">Пригласить</a></li>
               <li><a href="#section42">Посмотреть</a></li>
             </ul>
           </li>
+          <li ><a href="/user/edit" >Изменить персональные данные</a></li></ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a aria-label="Left Align" href="<c:url value="/j_spring_security_logout"/>"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
       </div>
     </div>
@@ -52,12 +56,45 @@
 </nav>
 
 <div id="section1" class="container-fluid">
+  <div class="container">
+
+    <table class="table table-border" style="width: auto">
+      <thead>
+      <tr>
+        <td><b>Сервис</b></td>
+        <td><b>Прошлые показатели</b></td>
+        <td><b>Текущие показатели</b></td>
+        <td><b>Разница</b></td>
+        <td><b>Тариф</b></td>
+        <td><b>К Оплате</b></td>
+      </tr>
+      </thead>
+      <c:forEach items="${payments}" var="payment">
+        <tr>
+          <td>${payment.serviceName}</td>
+          <td>${payment.prevValue}</td>
+          <td>${payment.currValue}</td>
+          <td>${payment.diff}</td>
+          <td>${payment.rate}</td>
+          <td>${payment.mustPay}</td>
+
+          <td>
+            <input type="submit" class="btn btn-primary launch-modal" formmethod="post" formaction="/user/get/payment" value="Сформировать платежку">
+          </td>
+        </tr>
+      </c:forEach>
+    </table>
+
+  </div>
 </div>
 <div id="section2" class="container-fluid">
+  <div class="container">
+    <h1>Внести показания счетчиков</h1>
   <table class="table table-border" style="width: auto">
     <thead>
     <tr>
       <td><b>Сервис</b></td>
+      <td><b></b></td>
       <td><b></b></td>
     </tr>
     </thead>
@@ -67,20 +104,12 @@
         <td>
           <input type="button" class="btn btn-primary launch-modal" onclick="launchModal('${serviceUser.lastValue}','${serviceUser.serviceId}','${serviceUser.rate}')" value="Внести показания">
         </td>
-      </tr>
+        </tr>
     </c:forEach>
   </table>
-
- <p></p>
-    <form role="form" enctype="multipart/form-data" class="form-horizontal" action="/user/edit" method="post">
-      <input type="submit" class="btn btn-primary" value="Изменить персональные данные...">
-    </form>
-
-
-
 </div>
-<div id="section3" class="container-fluid">
 </div>
+
 <div id="section41" class="container-fluid">
   <div class="container">
   <h1>Пригласите своих соседей!</h1>
@@ -155,19 +184,16 @@
               <td><input id="invoice" type="number" class="form-control" name="invoice" placeholder="К оплате"></td>
             </tr>
           </table>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
         </form>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
     </div>
   </div>
 </div>
-
+</div>
 
 
 <script type="text/javascript">
@@ -192,6 +218,20 @@
 
 
 </script>
+
+
+  <div class="navbar navbar-inverse navbar-fixed-bottom" >
+    <div class="container-fluid">
+      <div class="navbar-text pull-left">
+        <h3>Project by maxim & yurii</h3>
+      </div>
+      <div class="navbar-text pull-right">
+        <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+      </div>
+    </div>
+  </div>
+
+
 
 </body>
 </html>

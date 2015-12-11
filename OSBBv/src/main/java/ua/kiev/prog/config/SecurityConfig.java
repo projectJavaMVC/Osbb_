@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin/*").fullyAuthenticated()
                 .antMatchers("/user/*").fullyAuthenticated()
+                .antMatchers("/sec/*").fullyAuthenticated()
                 .and().formLogin().defaultSuccessUrl("/", false);
 
         http.formLogin()

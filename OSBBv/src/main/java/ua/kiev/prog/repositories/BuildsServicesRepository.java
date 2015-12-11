@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * Created by Пользователь on 04.12.2015.
  */
-//@Repository
+
 public interface BuildsServicesRepository extends JpaRepository<BuildServices, Long> {
 
     List<BuildServices> findAllByServicesEntity(ServicesEntity service);
     List<BuildServices> findAllByBuildsEntity(BuildsEntity build);
+    BuildServices findTop1ByBuildsEntityAndServicesEntity(BuildsEntity build,ServicesEntity serviceEntity);
 }

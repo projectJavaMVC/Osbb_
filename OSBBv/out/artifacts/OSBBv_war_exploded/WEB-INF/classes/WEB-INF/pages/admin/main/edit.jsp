@@ -25,7 +25,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">ОСББ</a>
+            <a class="navbar-brand" href="/">ОСББ</a>
+            <a aria-label="Left Align" href="<c:url value="/j_spring_security_logout"/>"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </div>
     </div>
 </nav>

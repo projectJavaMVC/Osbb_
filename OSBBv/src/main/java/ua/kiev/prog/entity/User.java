@@ -1,6 +1,8 @@
 package ua.kiev.prog.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mbro8_000 on 26.11.2015.
@@ -15,6 +17,10 @@ public class User {
     private Integer flatNum;
     private BigDecimal area;
     private Integer peopleCNT;
+    private Map<String ,String> currentCounter;
+
+
+
 
     public User(UserEntity user){
         this.id = user.getId();
@@ -81,5 +87,13 @@ public class User {
 
     public void setPeopleCNT(Integer peopleCNT) {
         this.peopleCNT = peopleCNT;
+    }
+
+    public Map<String, String> getCurrentCounter() {
+        return currentCounter;
+    }
+
+    public void setCurrentCounter(Map<String, String> currentCounter) {
+        this.currentCounter = currentCounter;
     }
 }

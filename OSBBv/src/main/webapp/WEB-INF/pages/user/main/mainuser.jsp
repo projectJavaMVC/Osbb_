@@ -14,7 +14,15 @@
     body {
       position: relative;
     }
-    #section1 {padding-top:50px;height:100%;color: #fff; background-color: #1E88E5;}
+    .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+      background-color: #550055;
+      color:#eeeeee;
+    }
+    .table-striped>tbody>tr:nth-child(odd)>td,
+    .table-striped>tbody>tr:nth-child(odd)>th {
+      background-color: #3157e5;
+    }
+    #section1 {padding-top:50px;height:100%;color: #fff; background-color: #3157e5;}
     #section2 {padding-top:50px;height:500px;color: #fff; background-color: #673ab7;}
 
     #section41 {padding-top:50px;height:500px;color: #fff; background-color: #00bcd4;}
@@ -57,8 +65,10 @@
 
 <div id="section1" class="container-fluid">
   <div class="container">
+<c:choose>
+  <c:when test="${not empty payments}">
 
-    <table class="table table-border" style="width: auto">
+    <table class="table table-hover"  >
       <thead>
       <tr>
         <td><b>Сервис</b></td>
@@ -84,7 +94,11 @@
         </tr>
       </c:forEach>
     </table>
-
+  </c:when>
+  <c:otherwise>
+    <h2>На данный момент нет платежей</h2>
+  </c:otherwise>
+  </c:choose>
   </div>
 </div>
 <div id="section2" class="container-fluid">
@@ -123,38 +137,43 @@
 </div>
 <div id="section42" class="container-fluid">
   <div class="container">
-  <h1>Мои соседи</h1>
-  <table class="table table-border">
-    <thead>
-    <tr>
-      <td><b>Номер квартиры</b></td>
-      <td><b>Имя</b></td>
-      <td><b>Фамилия</b></td>
-      <td><b>Тел.</b></td>
-      <td><b>Емейл</b></td>
-      <td><b>Площадь</b></td>
-      <td><b>Проживает</b></td>
-    </tr>
-    </thead>
-    <c:forEach items="${users}" var="user">
-      <tr>
-        <td>${user.flatNum}</td>
-        <td>${user.name}</td>
-        <td>${user.surname}</td>
-        <td>${user.phone}</td>
-        <td>${user.email}</td>
-        <td>${user.area}</td>
-        <td>${user.peopleCNT}</td>
-      </tr>
-    </c:forEach>
-  </table>
+  <h1>Мои соседи:</h1>
+    <c:choose>
+      <c:when test="${not empty users}">
+        <table class="table table-border table-hover">
+          <thead>
+          <tr>
+            <td><b>Номер квартиры</b></td>
+            <td><b>Имя</b></td>
+            <td><b>Фамилия</b></td>
+            <td><b>Тел.</b></td>
+            <td><b>Емейл</b></td>
+            <td><b>Площадь</b></td>
+            <td><b>Проживает</b></td>
+          </tr>
+          </thead>
+          <c:forEach items="${users}" var="user">
+            <tr>
+              <td>${user.flatNum}</td>
+              <td>${user.name}</td>
+              <td>${user.surname}</td>
+              <td>${user.phone}</td>
+              <td>${user.email}</td>
+              <td>${user.area}</td>
+              <td>${user.peopleCNT}</td>
+            </tr>
+          </c:forEach>
+        </table>
+      </c:when>
+      <c:otherwise>
+        <h2>У вас еще нет соседей. <br> Вы можете пригласить соседей в меню <a href="#section41" style="color: darkblue">Пригласить соседей</a></h2>
+        </c:otherwise>
+    </c:choose>
+    <br>
+    <br>
+    <br><br><br>
+ </div>
 </div>
-</div>
-
-
-
-
-
 
 <div id="addPerfCounters" class="modal fade">
   <div class="modal-dialog">
@@ -179,9 +198,9 @@
             <tr>
               <td><input id="previous-value" type="number" class="form-control" name="previousvalue" placeholder="Предыдущие"></td>
               <td><input id="current-value"type="number" onkeyup="calc()" class="form-control" name="currentvalue" placeholder="Текущие"></td>
-              <td><input id="diff" type="number" class="form-control" name="diff" placeholder="Разница"></td>
-              <td><input id="rate" type="number" class="form-control" name="rate" placeholder="Тариф"></td>
-              <td><input id="invoice" type="number" class="form-control" name="invoice" placeholder="К оплате"></td>
+              <td><input id="diff" type="number" class="form-control" name="diff" placeholder="Разница" disabled></td>
+              <td><input id="rate" type="number" class="form-control" name="rate" placeholder="Тариф" readonly></td>
+              <td><input id="invoice" type="number" class="form-control" name="invoice" placeholder="К оплате" disabled></td>
             </tr>
           </table>
 
@@ -220,13 +239,13 @@
 </script>
 
 
-  <div class="navbar navbar-inverse navbar-fixed-bottom" >
-    <div class="container-fluid">
-      <div class="navbar-text pull-left">
-        <h3>Project by maxim & yurii</h3>
+  <div class="navbar navbar-inverse navbar-fixed-bottom" style="opacity: 0.8; height: 5% " >
+    <div class="container-fluid" >
+      <div class="navbar-text  pull-left">
+        <h5>Project by maxim & yurii</h5>
       </div>
       <div class="navbar-text pull-right">
-        <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+        <h5>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h5>
       </div>
     </div>
   </div>

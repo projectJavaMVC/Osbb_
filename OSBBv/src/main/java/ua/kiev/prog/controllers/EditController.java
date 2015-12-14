@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.kiev.prog.entity.*;
 import ua.kiev.prog.services.Services;
+
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,46 +43,58 @@ public class EditController {
     }
 
     @RequestMapping("/edit/ServiceRates")
-    public String editServiceRates(@RequestParam Map<String,String > allRequestParam, Model model) {
-        UserEntity user = getCurrUser();
-        List<BuildServices>buildServicesList = user.getBuildsEntity().getServices();
-        for (Map.Entry<String, String> entry : allRequestParam.entrySet()) {
-            for (BuildServices buildService : buildServicesList) {
-                if(buildService.getId() == Integer.parseInt(entry.getKey()))
-                buildService.setRate(Integer.parseInt(entry.getValue()));
-                services.mergeBuildService(buildService);
+    public void editServiceRates(@RequestParam Map<String,String > allRequestParam,HttpServletResponse response, Model model) {
+        try {
+            UserEntity user = getCurrUser();
+            List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
+            for (Map.Entry<String, String> entry : allRequestParam.entrySet()) {
+                for (BuildServices buildService : buildServicesList) {
+                    if (buildService.getId() == Integer.parseInt(entry.getKey()))
+                        buildService.setRate(Integer.parseInt(entry.getValue()));
+                    services.mergeBuildService(buildService);
+                }
             }
+            services.mergeBuild(user.getBuildsEntity());
+            response.sendRedirect("/sec/signIN");
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        services.mergeBuild(user.getBuildsEntity());
-        model.addAttribute("services", getCurrentUserServiceList(user));
+
+       /* model.addAttribute("services", getCurrentUserServiceList(user));
         model.addAttribute("user", user);
 
-        return "/admin/main/mainadmin";
+        return "/admin/main/mainadmin";*/
     }
 
     @RequestMapping("/edit/userInfo")
-    public String editUserData(@RequestParam String name,
+    public void editUserData(@RequestParam String name,
                                @RequestParam String surname,
                                @RequestParam String email,
                                @RequestParam String phone,
                                @RequestParam BigDecimal area,
                                @RequestParam int peopleCNT,
+                               HttpServletResponse response,
                                Model model) {
+        try {
+            UserEntity us = getCurrUser();
+            us.getUserInfo().setFirstName(name);
+            us.getUserInfo().setLastName(surname);
+            us.getUserInfo().setPhone(phone);
+            us.setEmail(email);
+            us.getUserInfo().getFlatsEntity().setArea(area);
+            us.getUserInfo().getFlatsEntity().setPeopleCnt(peopleCNT);
+            response.sendRedirect("/sec/signIN");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
-        UserEntity us = getCurrUser();
-        us.getUserInfo().setFirstName(name);
-        us.getUserInfo().setLastName(surname);
-        us.getUserInfo().setPhone(phone);
-        us.setEmail(email);
-        us.getUserInfo().getFlatsEntity().setArea(area);
-        us.getUserInfo().getFlatsEntity().setPeopleCnt(peopleCNT);
+        /*User user = new User(us);
 
-        User user = new User(us);
 
         model.addAttribute("servicesList", getCurrentUserServiceList(us));
         model.addAttribute("user", user);
         model.addAttribute("users", getCurrentUserList(us));
-        return "user/main/mainuser";
+        return "user/main/mainuser";*/
     }
 
 
@@ -89,7 +103,7 @@ public class EditController {
         return services.findOneUserByLogin(login);
     }
 
-    public List<User> getCurrentUserList(UserEntity user) {
+   /* public List<User> getCurrentUserList(UserEntity user) {
         List<UserEntity> listUsers = services.findAllUsersByBuild(user.getBuildsEntity());
         List<User> listUser = new ArrayList<User>();
         for (UserEntity u : listUsers) {
@@ -99,9 +113,9 @@ public class EditController {
             }
         }
         return listUser;
-    }
+    }*/
 
-    public List<ServiceUser> getCurrentUserServiceList(UserEntity user) {
+   /* public List<ServiceUser> getCurrentUserServiceList(UserEntity user) {
         List<ServiceUser> serviceUserList = new ArrayList<ServiceUser>();
         List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
         for (BuildServices buildServ : buildServicesList) {
@@ -113,8 +127,8 @@ public class EditController {
             serviceUserList.add(serviceUser);
         }
         return serviceUserList;
-    }
-    public List<ServiceUser> getAllUserServiceList(UserEntity user) {
+    }*/
+     public List<ServiceUser> getAllUserServiceList(UserEntity user) {
         List<ServiceUser> serviceUserList = new ArrayList<ServiceUser>();
         List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
         for (BuildServices buildServ : buildServicesList) {

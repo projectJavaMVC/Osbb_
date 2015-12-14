@@ -17,5 +17,15 @@
 <span style="color: black; font-size: 15pt;font-family: sans-serif ">
 Please go to <a href="/signup">registration page</a>, and try again
   </span><br/>
+<div class="navbar navbar-inverse navbar-fixed-bottom" style="opacity: 0.8; height: 5% " >
+  <div class="container-fluid" >
+    <div class="navbar-text  pull-left">
+      <h5>Project by maxim & yurii</h5>
+    </div>
+    <div class="navbar-text pull-right">
+      <h5>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h5>
+    </div>
+  </div>
+</div>
 </body>
 </html>

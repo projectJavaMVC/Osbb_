@@ -12,7 +12,7 @@
         body {
             position: relative;
         }
-        #section1 {padding-top:50px;height:100%;color: #fff; background-color: #1E88E5;}
+        #section1 {padding-top:50px;height:100%;color: #fff; background: url("../../../resources/images/signin.jpg");background-size: cover}
     </style>
 </head>
 </head>
@@ -36,8 +36,8 @@
     <form action="${loginUrl}" class="form-horizontal" method="post">
         <div class="form-group">
             <div class="col-md-4">
-            <h3>Войдите или зарегестрируйтесь</h3>
-                <h4 style="color: #ff4c11">Указаный вами логин не корректный!</h4>
+            <h3>Войдите или зарегистрируйтесь</h3>
+                <h4 style="color: #ff4c11">Указанный вами логин некорректный!</h4>
         </div>
         </div>
         <div class="form-group" role="alert">
@@ -64,16 +64,17 @@
 </div>
 
 
-<div class="navbar navbar-inverse navbar-fixed-bottom" >
-    <div class="container-fluid">
-        <div class="navbar-text pull-left">
-            <h3>Project by maxim & yurii</h3>
+<div class="navbar navbar-inverse navbar-fixed-bottom" style="opacity: 0.8; height: 5% " >
+    <div class="container-fluid" >
+        <div class="navbar-text  pull-left">
+            <h5>Project by maxim & yurii</h5>
         </div>
         <div class="navbar-text pull-right">
-            <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+            <h5>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h5>
         </div>
     </div>
 </div>
+
 
 
 

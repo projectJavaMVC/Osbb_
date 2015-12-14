@@ -17,6 +17,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import ua.kiev.prog.services.UserDetailsServiceImpl;
@@ -29,7 +31,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories("ua.kiev.prog.repositories")
-public class AppConfig {
+public class AppConfig extends WebMvcConfigurerAdapter {
 
 
     @Bean
@@ -64,10 +66,9 @@ public class AppConfig {
     {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/prog"); //?characterEncoding=UTF-8
+        ds.setUrl("jdbc:mysql://localhost:3306/prog");
         ds.setUsername("root");
         ds.setPassword("GFDert567");
-
         return ds;
     }
 
@@ -80,6 +81,13 @@ public class AppConfig {
         resolver.setOrder(1);
         return resolver;
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
+    }
+
+
     @Bean
     public UserDetailsService getUserDetailsService(){
         return new UserDetailsServiceImpl();

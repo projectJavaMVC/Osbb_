@@ -12,7 +12,7 @@
         body {
             position: relative;
         }
-        #section1 {padding-top:50px;height:100%;color: #fff; background-color: #1E88E5;}
+        #section1 {padding-top:50px;height:100%;color: #fff; background: url("../../../resources/images/signin.jpg");background-size: cover}
     </style>
 </head>
 </head>
@@ -32,41 +32,41 @@
 
 <div id="section1" class="container-fluid">
     <div class="container">
-    <c:url value="/j_spring_security_check" var="loginUrl" />
-    <form action="${loginUrl}" class="form-horizontal" method="post">
-        <div class="form-group">
-            <div class="col-md-4">
-            <h3>Войдите или зарегестрируйтесь</h3>
-        </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4"><input  type="text" class="form-control" name="j_username" placeholder="Enter your Login"></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4"><input type="password" class="form-control" name="j_password" placeholder="Enter your Password"></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4"> <input aria-label="Left Align" type="submit" class="btn btn-success" value="Войти"></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4">
-            <input type="submit" class="btn btn-success" formmethod="post" formenctype="multipart/form-data" formaction="/all/reg/signup" value="Регистрация">
+        <c:url value="/j_spring_security_check" var="loginUrl" />
+        <form action="${loginUrl}" class="form-horizontal" method="post">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <h3>Войдите или зарегистрируйтесь</h3>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="form-group">
+                <div class="col-md-4"><input  type="text" class="form-control" name="j_username" placeholder="Enter your Login"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4"><input type="password" class="form-control" name="j_password" placeholder="Enter your Password"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4"> <input aria-label="Left Align" type="submit" class="btn btn-success" value="Войти"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-success" formmethod="post" formenctype="multipart/form-data" formaction="/all/reg/signup" value="Регистрация">
+                </div>
+            </div>
+        </form>
 
-           </div>
     </div>
+</div>
 </div>
 
 
-<div class="navbar navbar-inverse navbar-fixed-bottom" >
-    <div class="container-fluid">
-        <div class="navbar-text pull-left">
-            <h3>Project by maxim & yurii</h3>
+<div class="navbar navbar-inverse navbar-fixed-bottom" style="opacity: 0.8; height: 5% " >
+    <div class="container-fluid" >
+        <div class="navbar-text  pull-left">
+            <h5>Project by maxim & yurii</h5>
         </div>
         <div class="navbar-text pull-right">
-            <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+            <h5>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h5>
         </div>
     </div>
 </div>

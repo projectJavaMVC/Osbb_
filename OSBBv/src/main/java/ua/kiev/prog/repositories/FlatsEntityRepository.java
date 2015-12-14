@@ -16,5 +16,5 @@ import java.util.List;
 //@Repository
 public interface FlatsEntityRepository extends JpaRepository<FlatsEntity, Long> {
 
-    List<FlatsEntity> findAllByBuildsEntity(BuildsEntity build);
+    List<FlatsEntity> findAllByBuildsEntityAndAreaIsNull(BuildsEntity build);
 }

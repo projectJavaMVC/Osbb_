@@ -16,6 +16,7 @@ import ua.kiev.prog.services.Services;
 import ua.kiev.prog.utils.Email;
 import ua.kiev.prog.utils.PDFCreate;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,17 @@ public class MyController {
     private Services services;
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(HttpServletResponse response,Model model) {
         //new PDFCreate().createPDF();
-        if (getCurrUser()==null){
-            return "all/hello/signIN";
+        try {
+            if (getCurrUser() == null) {
+                return "all/hello/signIN";
+            }
+            response.sendRedirect("/sec/signIN");
+        } catch (Exception e ){
+            e.printStackTrace();
         }
-        return "redirect: /sec/signIN";
+        return null;
     }
     @RequestMapping("/signin")
     public String signIn(Model model) {
@@ -113,11 +119,8 @@ public class MyController {
                               @RequestParam String phone, @RequestParam long flatNum, @ModelAttribute("user") UserEntity user, Model model) {
         UserInfoEntity userIE;
         FlatsEntity flat = services.getFlatById(flatNum);
-        String[] list = {name, lastName, secondName, phone};
-        for (String s : list) {
-            if ((s == null) || (s.isEmpty()))
-                return "all/errors/403_Error";
-        }
+        if(name == null && lastName == null && secondName == null && phone == null)
+            return "all/errors/403_Error";
         if (flat == null)
             return "all/errors/403_Error";
 
@@ -151,33 +154,18 @@ public class MyController {
         return "all/hello/signIN";
     }
 
-
-    //войти
-    /* @RequestMapping("/sec/signIN")
-    public String signin(  Model model) {
-        String login  = SecurityContextHolder.getContext().getAuthentication().getName();
-         UserEntity user = services.findOneUserByLogin(login);
-             //model.addAttribute("user", user);
-            List<UserEntity> listUsers = services.findAllUsersByBuild(user.getBuildsEntity());
-            List<User> listUser = new ArrayList<User>();
-            for (UserEntity u : listUsers) {
-                User us = new User(u);
-                listUser.add(us);
-            }
-            model.addAttribute("user", user);
-            model.addAttribute("users", listUser);
-            return user.getType() == USER_TYPE ? "user/main/mainuser" : "admin/main/mainadmin";
-
-    }*/
-
-
-
-    @RequestMapping("/inviteusers")
-    public String inviteUsers(@RequestParam String email, Model model) {
+     @RequestMapping("/inviteusers")
+    public void inviteUsers(@RequestParam String email,HttpServletResponse response, Model model) {
+       try{
         UserEntity user = getCurrUser();
         String code = user.getBuildsEntity().getCode();
         new Email().sendMail(email, code);
-        return user.getType() == USER_TYPE ? "user/main/mainuser" : "admin/main/mainadmin";
+        response.sendRedirect("/sec/signIN"); }
+       catch
+               (Exception e ){
+           e.printStackTrace();
+       }
+        //return user.getType() == USER_TYPE ? "user/main/mainuser" : "admin/main/mainadmin";
     }
 
 
@@ -195,26 +183,9 @@ public class MyController {
         return "all/hello/signIN";
     }
 
-    @RequestMapping("/test")
-    public String inviteUsers(Model model) {
-
-        // services.findOneUserByLogin("admin");
-        model.addAttribute("admin", services.findOneUserByLogin("admin"));
-        return "test2";
-    }
-
-    @RequestMapping("/hello/signINincorrect")
+       @RequestMapping("/hello/signINincorrect")
     public String incorrectLogin(Model model) {
         return "all/hello/signINincorrect";
-    }
-
-    @RequestMapping("/test2")
-    public String inviteUsers2(Model model) {
-        BuildsEntity build = services.findBuildById((long) 1);
-        UserEntity user = services.findOneUserByBuild(build);
-        //services.listServices();
-        model.addAttribute("user", user);
-        return "testdata";
     }
 
 }

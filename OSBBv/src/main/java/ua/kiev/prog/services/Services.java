@@ -7,7 +7,6 @@ import ua.kiev.prog.entity.*;
 import ua.kiev.prog.repositories.*;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +96,7 @@ public class Services {
 
     @Transactional
     public List<FlatsEntity> findAllByBuildsEntity(BuildsEntity build) {
-        return flatsRepository.findAllByBuildsEntity(build);
+        return flatsRepository.findAllByBuildsEntityAndAreaIsNull(build);
     }
 
     @Transactional
@@ -144,17 +143,17 @@ public class Services {
     }
     @Transactional
     public Map<Long,Long> getCurrValuesByUser (UserEntity userEntity) {
-        List<BuildServices> buildServices = userEntity.getBuildsEntity().getServices(); //достаем все сервисы для этого дома
-        Map<Long,Long> countDatas = new HashMap<Long,Long>(); // создаем массив для хранения показателей
+        List<BuildServices> buildServices = userEntity.getBuildsEntity().getServices();
+        Map<Long,Long> countDatas = new HashMap<Long,Long>();
         for(BuildServices buildService : buildServices){
-            ServicesEntity service = buildService.getServicesEntity(); //берем сервис 1
+            ServicesEntity service = buildService.getServicesEntity();
             CountData  cntData = countDataRepository.findTop1ByUserEntityAndServicesEntityOrderByIdDesc(userEntity, service);
             if (cntData!=null)
             {
             countDatas.put(cntData.getServicesEntity().getId(),cntData.getValue());
             } else {
                 countDatas.put(service.getId() , (long)50);
-            }//находим для нехо показатели и кладем в список
+            }
         }
         return countDatas;
     }
@@ -189,6 +188,5 @@ public class Services {
     public List<CurrentPayments> getCurrentPayments (UserEntity userEntity){
         return currentPaymentsRepository.findByUserEntity(userEntity);
     }
-
 }
 

@@ -14,6 +14,7 @@ import ua.kiev.prog.services.Services;
 import ua.kiev.prog.utils.PDFCreate;
 
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +33,9 @@ public class MainController {
     private Services services;
 
     @RequestMapping("/sec/signIN")
-    public String signin(  Model model) {
+    public String signin(Model model) {
         UserEntity user = getCurrUser();
-        new PDFCreate().createPDF(user);
+        //new PDFCreate().createPDF(user);
         List<UserEntity> listUsers = services.findAllUsersByBuild(user.getBuildsEntity());
         List<User> listUser = new ArrayList<User>();
         List<BuildServices> buildServicesList = user.getBuildsEntity().getServices();
@@ -64,67 +65,71 @@ public class MainController {
 
     }
     @RequestMapping("/user/add/currentvalue/{id}")
-    public String listGroup(@PathVariable("id") long servId, @RequestParam int rate,@RequestParam long currentvalue ,Model model) {
-        UserEntity user = getCurrUser();
-        CountData data = new CountData();
-        data.setServicesEntity(services.getServiceById(servId));
-        data.setRate(rate);
-        data.setValue(currentvalue);
-        data.setUserEntity(user);
-        services.addCountData(data);
-        model.addAttribute("payments",getPayments(user));
+    public void listGroup(@PathVariable("id") long servId, @RequestParam int rate,@RequestParam long currentvalue ,HttpServletResponse response,Model model) {
+        try {
+            UserEntity user = getCurrUser();
+            CountData data = new CountData();
+            data.setServicesEntity(services.getServiceById(servId));
+            data.setRate(rate);
+            data.setValue(currentvalue);
+            data.setUserEntity(user);
+            services.addCountData(data);
+            response.sendRedirect("/sec/signIN");
+        } catch (Exception e ){
+            e.printStackTrace();
+        }
+      /*  model.addAttribute("payments",getPayments(user));
         model.addAttribute("servicesList",getCurrentUserServiceList(user));
         model.addAttribute("user", user);
         model.addAttribute("users", getCurrentUserList(user));
         ////Вынести в метод инициализацию а и прокрутить тут.
-        return   "user/main/mainuser";
+        return   "user/main/mainuser";*/
     }
      @RequestMapping("/admin/add/payments/{serviceId}")
-    public String addPayments(@PathVariable("serviceId") long serviceId,Model model) {
-        UserEntity user = getCurrUser();
-        ServicesEntity servicesEntity = services.getServiceById(serviceId);
-        BuildServices buildServicese = services.getBuildServiceByBuildAndService(user.getBuildsEntity() , servicesEntity);
-        List<UserEntity> userEntities = services.findAllUsersByBuild(user.getBuildsEntity());
-        for(UserEntity userEntity : userEntities)
-        {
-            if (userEntity.getType()!=1)
-            {
-                CurrentPayments currentPayments = new CurrentPayments();
-                currentPayments.setServicesEntity(servicesEntity);
-                currentPayments.setUserEntity(userEntity);
-                currentPayments.setRate(buildServicese.getRate());
-                currentPayments.setStatus((short) 0);
-                Map<Long,Long> countDatas = services.getCurrValuesByUser(userEntity);
+    public void addPayments(@PathVariable("serviceId") long serviceId,HttpServletResponse response,Model model) {
+         try {
+             UserEntity user = getCurrUser();
+             ServicesEntity servicesEntity = services.getServiceById(serviceId);
+             BuildServices buildServicese = services.getBuildServiceByBuildAndService(user.getBuildsEntity(), servicesEntity);
+             List<UserEntity> userEntities = services.findAllUsersByBuild(user.getBuildsEntity());
+             for (UserEntity userEntity : userEntities) {
+                 if (userEntity.getType() != 1) {
+                     CurrentPayments currentPayments = new CurrentPayments();
+                     currentPayments.setServicesEntity(servicesEntity);
+                     currentPayments.setUserEntity(userEntity);
+                     currentPayments.setRate(buildServicese.getRate());
+                     currentPayments.setStatus((short) 0);
+                     Map<Long, Long> countDatas = services.getCurrValuesByUser(userEntity);
 
-                if (countDatas!=null) {
-                    currentPayments.setCurrValue(countDatas.get(servicesEntity.getId()));
-                } else {
-                    currentPayments.setCurrValue(50);}
-                Map<Long,Long> countDatas2 = services.getPrevValuesByUser(userEntity);
-                for(Map.Entry<Long,Long>entry: countDatas2.entrySet()){
-                    System.out.println(entry.getKey()+" - "+entry.getValue());
-                    System.out.println(servicesEntity.getId());
-                }
+                     if (countDatas != null) {
+                         currentPayments.setCurrValue(countDatas.get(servicesEntity.getId()));
+                     } else {
+                         currentPayments.setCurrValue(50);
+                     }
+                     Map<Long, Long> countDatas2 = services.getPrevValuesByUser(userEntity);
+                     for (Map.Entry<Long, Long> entry : countDatas2.entrySet()) {
+                         System.out.println(entry.getKey() + " - " + entry.getValue());
+                         System.out.println(servicesEntity.getId());
+                     }
 
-                if (countDatas2!=null) {
-                    currentPayments.setPrevValue(countDatas2.get(servicesEntity.getId()));
-                } else {
-                    currentPayments.setPrevValue(0);}
-                services.addCurrentPayments(currentPayments);
-            }
-        }
-         model.addAttribute("payments",getPayments(user));
+                     if (countDatas2 != null) {
+                         currentPayments.setPrevValue(countDatas2.get(servicesEntity.getId()));
+                     } else {
+                         currentPayments.setPrevValue(0);
+                     }
+                     services.addCurrentPayments(currentPayments);
+                 }
+             } response.sendRedirect("/sec/signIN");
+         } catch (Exception e ){e.printStackTrace();}
+
+
+        /* model.addAttribute("payments",getPayments(user));
         model.addAttribute("servicesList",getCurrentUserServiceList(user));
         model.addAttribute("user", user);
         model.addAttribute("users", getCurrentUserList(user));
         ////Вынести в метод инициализацию а и прокрутить тут.
-        return   "admin/main/mainadmin";
+        return   "admin/main/mainadmin";*/
     }
-
-
-
-
-
 
 //--//--//--//-- //--//--//--//--  //--//--//--//--  //--//--//--//--  //--//--//--//--  //--//--//--//--  //--//--//--//--
         public  List<User> getCurrentUserList(UserEntity user) {
@@ -176,7 +181,5 @@ public class MainController {
         }else
             return null;
     }
-
-
 
 }

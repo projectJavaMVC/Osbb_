@@ -153,15 +153,15 @@
 </div>
 </div>
 
-<div class="navbar navbar-inverse navbar-fixed-bottom" >
-<div class="container-fluid">
-  <div class="navbar-text pull-left">
-  <h3>Project by maxim & yurii</h3>
-</div>
-  <div class="navbar-text pull-right">
-    <h3>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h3>
+<div class="navbar navbar-inverse navbar-fixed-bottom" style="opacity: 0.8; height: 5% " >
+  <div class="container-fluid" >
+    <div class="navbar-text  pull-left">
+      <h5>Project by maxim & yurii</h5>
+    </div>
+    <div class="navbar-text pull-right">
+      <h5>Наши контакты: mbratiuk@gmail.com , yurii.shipulin.31@gmail.com</h5>
+    </div>
   </div>
-</div>
 </div>
 
 

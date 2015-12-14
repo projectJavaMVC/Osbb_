@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/all/*").permitAll()
+                .antMatchers("/resources/*").permitAll()
                 //.anyRequest().permitAll()
                 .and();
         // http.sessionManagement().invalidSessionUrl()
@@ -67,7 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/j_spring_security_logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
-
     }
 
    /* @Bean
